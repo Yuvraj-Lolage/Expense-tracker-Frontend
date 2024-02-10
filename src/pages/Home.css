@@ -26,3 +26,9 @@
     text-align: end;
     margin-right: 20px;
 }
+
+.spinner-container{
+    height: 100vh;
+    display: grid;
+    place-items: center;
+}

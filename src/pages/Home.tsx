@@ -53,7 +53,7 @@ const Home: React.FC = () => {
         </IonHeader>
 
         {data ? (
-          data.map((item: { title: any; amount: any; category: any }) => (
+          data.map((item: { title: any; amount: any; category: any, amount:any }) => (
             <IonCard className="my-2">
               <IonCardContent id="card-content">
                 <div className="card-img">
@@ -66,14 +66,16 @@ const Home: React.FC = () => {
                   </IonText>
                 </div>
                 <div className="expense-amt">
-                  <IonText>-200</IonText>
+                  <IonText>-{ item.amount }</IonText>
                 </div>
               </IonCardContent>
             </IonCard>
           ))
         ) : (
-          <div className="spinner-border text-primary" role="status">
+          <div className="spinner-container">
+            <div className="spinner-border text-danger" role="status">
             <span className="sr-only"></span>
+          </div>
           </div>
         )}
       </IonContent>
