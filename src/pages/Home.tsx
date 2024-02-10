@@ -1,13 +1,48 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardTitle,
+  IonContent,
+  IonHeader,
+  IonImg,
+  IonLoading,
+  IonPage,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import ExploreContainer from "../components/ExploreContainer";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+
+import "./Home.css";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Home: React.FC = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch data from the API
+        const response = await axios.get("http://localhost:3000/expense");
+
+        setData(response.data); // Assuming the response is JSON data
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Blank</IonTitle>
+          <IonTitle>Backend Data</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -16,7 +51,31 @@ const Home: React.FC = () => {
             <IonTitle size="large">Blank</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer />
+
+        {data ? (
+          data.map((item: { title: any; amount: any; category: any }) => (
+            <IonCard className="my-2">
+              <IonCardContent id="card-content">
+                <div className="card-img">
+                  <IonImg src="https://images.freeimages.com/vhq/images/previews/3d3/coffee-mug-icon-orange-background-121341.png"></IonImg>
+                </div>
+                <div className="card-text">
+                  <IonCardTitle>{ item.title }</IonCardTitle>
+                  <IonText>
+                    { item.category }
+                  </IonText>
+                </div>
+                <div className="expense-amt">
+                  <IonText>-200</IonText>
+                </div>
+              </IonCardContent>
+            </IonCard>
+          ))
+        ) : (
+          <div className="spinner-border text-primary" role="status">
+            <span className="sr-only"></span>
+          </div>
+        )}
       </IonContent>
     </IonPage>
   );
