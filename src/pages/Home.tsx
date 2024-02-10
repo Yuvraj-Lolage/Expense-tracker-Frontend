@@ -1,22 +1,25 @@
 import {
+  IonButtons,
   IonCard,
   IonCardContent,
   IonCardTitle,
   IonContent,
   IonHeader,
   IonImg,
-  IonLoading,
+  IonMenu,
+  IonMenuButton,
+  IonMenuToggle,
   IonPage,
   IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import "./Home.css";
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import NavigationDrawer from "../components/NavigationDrawer/NavigationDrawer";
 
 const Home: React.FC = () => {
   const [data, setData] = useState(null);
@@ -39,9 +42,24 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <IonPage>
+    <>
+    {/* <IonMenu contentId="main-content">
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Menu Content</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">This is the menu content.</IonContent>
+      </IonMenu> */}
+    <NavigationDrawer/>
+
+      
+    <IonPage id="main-content">
       <IonHeader>
         <IonToolbar>
+        <IonMenuToggle slot="start" >
+              <IonMenuButton id="hamburger-menu"></IonMenuButton>
+            </IonMenuToggle>
           <IonTitle>Backend Data</IonTitle>
         </IonToolbar>
       </IonHeader>
@@ -53,8 +71,8 @@ const Home: React.FC = () => {
         </IonHeader>
 
         {data ? (
-          data.map((item: { title: any; amount: any; category: any, amount:any }) => (
-            <IonCard className="my-2">
+          data.map((item: { title: any; amount: any; category_name: any }) => (
+            <IonCard>
               <IonCardContent id="card-content">
                 <div className="card-img">
                   <IonImg src="https://images.freeimages.com/vhq/images/previews/3d3/coffee-mug-icon-orange-background-121341.png"></IonImg>
@@ -62,7 +80,7 @@ const Home: React.FC = () => {
                 <div className="card-text">
                   <IonCardTitle>{ item.title }</IonCardTitle>
                   <IonText>
-                    { item.category }
+                    { item.category_name }
                   </IonText>
                 </div>
                 <div className="expense-amt">
@@ -80,6 +98,7 @@ const Home: React.FC = () => {
         )}
       </IonContent>
     </IonPage>
+    </>
   );
 };
 
